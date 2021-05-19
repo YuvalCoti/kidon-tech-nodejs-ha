@@ -1,7 +1,7 @@
 import {accounts} from './data.service'
 export class CrappyService {
     async withdrawal(id: number, amount: number): Promise<{oldBalance: number, newBalance: number}> {
-        const oldBalance = accounts[id];
+        const oldBalance = accounts[id] || 0;
         const random = Math.random();
 
         if (random > 0.75) {
@@ -13,12 +13,8 @@ export class CrappyService {
         return {oldBalance, newBalance: accounts[id]}
     }
     async deposit(id: number, amount: number): Promise<{oldBalance: number, newBalance: number}> {
-        const oldBalance = accounts[id];
+        const oldBalance = accounts[id] || 0;
         const random = Math.random();
-
-        if (random < 0.25) {
-            throw new Error('random error');
-        }
         const randomSleepSeconds: number = (Math.floor(random * 5) + 3) * 1000;
         await new Promise(r => setTimeout(r, randomSleepSeconds));
         accounts[id] = oldBalance + amount;
